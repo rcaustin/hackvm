@@ -17,7 +17,7 @@
 #define INST_A    0x7FFF // 0--- ---- ---- ----
 #define INST_C    0xE000 // 111- ---- ---- ----
 #define COMP_MASK 0x1FC0 // ---1 1111 11-- ----
-#define DEST_MASK 0xE038 // ---- ---- --11 1---
+#define DEST_MASK 0x0038 // ---- ---- --11 1---
 #define JUMP_MASK 0x0007 // ---- ---- ---- -111
 #define SIGN_MASK 0x8000 // 1--- ---- ---- ----
 
@@ -53,14 +53,14 @@
 #define COMP_DOM  0x1540 // ---1 0101 01-- ----
 
 /* C-Instruction: Dest Field */
-#define DEST_NUL  0xE000 // ---- ---- --00 0---
-#define DEST_M    0xE008 // ---- ---- --00 1---
-#define DEST_D    0xE010 // ---- ---- --01 0---
-#define DEST_MD   0xE018 // ---- ---- --01 1---
-#define DEST_A    0xE020 // ---- ---- --10 0---
-#define DEST_AM   0xE028 // ---- ---- --10 1---
-#define DEST_AD   0xE030 // ---- ---- --11 0---
-#define DEST_AMD  0xE038 // ---- ---- --11 1---
+#define DEST_NUL  0x0000 // ---- ---- --00 0---
+#define DEST_M    0x0008 // ---- ---- --00 1---
+#define DEST_D    0x0010 // ---- ---- --01 0---
+#define DEST_MD   0x0018 // ---- ---- --01 1---
+#define DEST_A    0x0020 // ---- ---- --10 0---
+#define DEST_AM   0x0028 // ---- ---- --10 1---
+#define DEST_AD   0x0030 // ---- ---- --11 0---
+#define DEST_AMD  0x0038 // ---- ---- --11 1---
 
 /* C-Instruction: Jump Field */
 #define JUMP_NUL  0x0000 // ---- ---- ---- -000
