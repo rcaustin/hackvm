@@ -92,19 +92,19 @@ void execute_instruction(WORD instruction) {
       break;
     case COMP_INCD:
       // printf("COMP_INCD ");
-      result = ++D_REGISTER;
+      result = D_REGISTER + 1;
       break;
     case COMP_INCA:
       // printf("COMP_INCA ");
-      result = ++A_REGISTER;
+      result = A_REGISTER + 1;
       break;
     case COMP_DECD:
       // printf("COMP_DECD ");
-      result = --D_REGISTER;
+      result = D_REGISTER - 1;
       break;
     case COMP_DECA:
       // printf("COMP_DECA ");
-      result = --A_REGISTER;
+      result = A_REGISTER - 1;
       break;
     case COMP_DPA:
       // printf("COMP_DPA  ");
@@ -126,6 +126,35 @@ void execute_instruction(WORD instruction) {
       // printf("COMP_DOA  ");
       result = D_REGISTER | A_REGISTER;
       break;
+    case COMP_M:
+      result = RAM[A_REGISTER];
+      break;
+    case COMP_CMPM:
+      result = ~RAM[A_REGISTER];
+      break;
+    case COMP_NEGM:
+      result = RAM[A_REGISTER] ^ SIGN_MASK;
+      break;
+    case COMP_INCM:
+      result = RAM[A_REGISTER] + 1;
+      break;
+    case COMP_DECM:
+      result = RAM[A_REGISTER] - 1;
+      break;
+    case COMP_DPM:
+      result = D_REGISTER + RAM[A_REGISTER];
+      break;
+    case COMP_DMM:
+      result = D_REGISTER - RAM[A_REGISTER];
+      break;
+    case COMP_MMD:
+      result = RAM[A_REGISTER] - D_REGISTER;
+      break;
+    case COMP_DAM:
+      result = D_REGISTER & RAM[A_REGISTER];
+      break;
+    case COMP_DOM:
+      result = D_REGISTER | RAM[A_REGISTER];
     default:
       log_error("INVALID COMPUTATION INSTRUCTION");
       break;
@@ -182,32 +211,32 @@ void execute_instruction(WORD instruction) {
       break;
     case JUMP_JGT:
       // printf("JUMP_JGT\n");
-      if (result > 0)
+      if (result > SIGN_MASK)
         PC_REGISTER = A_REGISTER;
       break;
     case JUMP_JEQ:
       // printf("JUMP_JEQ\n");
-      if (result == 0)
+      if (result == SIGN_MASK)
         PC_REGISTER = A_REGISTER;
       break;
     case JUMP_JGE:
       // printf("JUMP_JGE\n");
-      if (result >= 0)
+      if (result >= SIGN_MASK)
         PC_REGISTER = A_REGISTER;
       break;
     case JUMP_JLT:
       // printf("JUMP_JLT\n");
-      if (result < 0)
+      if (result < SIGN_MASK)
         PC_REGISTER = A_REGISTER;
       break;
     case JUMP_JNE:
       // printf("JUMP_JNE\n");
-      if (result != 0)
+      if (result != SIGN_MASK)
         PC_REGISTER = A_REGISTER;
       break;
     case JUMP_JLE:
       // printf("JUMP_JLE\n");
-      if (result <= 0)
+      if (result <= SIGN_MASK)
         PC_REGISTER = A_REGISTER;
       break;
     case JUMP_JMP:
