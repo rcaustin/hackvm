@@ -44,8 +44,22 @@ void load_program(char* path, long* program_size) {
 void execute_instruction(WORD instruction) {
 
   /* Signals */
-  if (instruction == SGNL_QUIT)
+  switch(instruction) {
+  case SIG_QUIT:
     exit(1);
+    break;
+  case SIG_PRNTA:
+    printf("%hu\n", A_REGISTER);
+    break;
+  case SIG_PRNTD:
+    printf("%hu\n", D_REGISTER);
+    break;
+  case SIG_PRNTM:
+    printf("%hu\n", RAM[A_REGISTER]);
+    break;
+  default:
+    break;
+  }
 
   if ((instruction & INST_C) == INST_C) {
     /* C-INSTRUCTION */

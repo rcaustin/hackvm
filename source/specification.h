@@ -8,7 +8,10 @@
 #define MEMSIZE 32768
 
 /* Signals */
-#define SGNL_QUIT 0x8800 // 1000 1000 0000 0000
+#define SIG_QUIT  0x8800 // 1000 1000 0000 0000
+#define SIG_PRNTA 0x8801 // 1000 1000 0000 0001
+#define SIG_PRNTD 0x8802 // 1000 1000 0000 0010
+#define SIG_PRNTM 0x8803 // 1000 1000 0000 0011
 
 /* Instruction Masks */
 #define INST_A    0x7FFF // 0--- ---- ---- ----
