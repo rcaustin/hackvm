@@ -2,8 +2,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "logging.h"
+
+#define MAX_LINE_COUNT  32
+#define MAX_LINE_LENGTH 128
 
 
 WORD* read_binary_file(char* path, long* buffer_size) {
@@ -29,4 +33,22 @@ WORD* read_binary_file(char* path, long* buffer_size) {
     fclose(file);
   }
   return source;
+}
+
+char** read_file_by_line(char* path, long* buffer_size) {
+
+  char** lines = malloc(MAX_LINE_COUNT * MAX_LINE_LENGTH * sizeof(char));
+  FILE*  file  = file = fopen(path, "r");
+  int    i     = 0;
+
+  if (file != NULL) {
+    while (fgets(lines[i], MAX_LINE_LENGTH, file)) {
+      //lines[i][strlen(lines[i]) - 1] = '\0';
+      ++i;
+    }
+  }
+  fclose(file);
+  *buffer_size = i;
+
+  return lines;
 }

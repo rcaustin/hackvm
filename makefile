@@ -1,9 +1,13 @@
 CXX  = clang
 FLGS = -Wall -Werror -std=c11
-PRGM = hack
+PRGM = hackvm
+HASM = assembler
 
-all:
+hack:
 	$(CXX) $(FLGS) source/hack.c source/logging.c source/fileio.c -o $(PRGM)
 
+assembler:
+	$(CXX) $(FLGS) source/assembler.c source/logging.c source/fileio.c -o $(HASM)
+
 clean:
-	rm $(PRGM)
+	rm $(PRGM) $(HASM)
