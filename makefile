@@ -3,11 +3,11 @@ FLGS = -Wall -Werror -std=c11
 PRGM = hackvm
 HASM = assembler
 
-hack:
-	$(CXX) $(FLGS) source/hack.c source/logging.c source/fileio.c -o $(PRGM)
+hack: source/logging.o source/fileio.o
+	$(CXX) $(FLGS) source/hack.c source/logging.o source/fileio.o -o $(PRGM)
 
-assembler:
+assembler: source/logging.o source/fileio.o
 	$(CXX) $(FLGS) source/assembler.c source/logging.c source/fileio.c -o $(HASM)
 
 clean:
-	rm $(PRGM) $(HASM)
+	rm -f $(PRGM) $(HASM) source/*.o
