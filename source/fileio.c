@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "logging.h"
 
 #define MAX_LINE_COUNT  32
-#define MAX_LINE_LENGTH 128
+#define MAX_LINE_LENGTH 128 * sizeof(char)
 
 
 WORD* read_binary_file(char* path, long* buffer_size) {
@@ -15,7 +16,7 @@ WORD* read_binary_file(char* path, long* buffer_size) {
   WORD* source = NULL;
   FILE* file   = fopen(path, "rb");
 
-  if (file != NULL) {
+  if (file) {
     /* Seek to EOF */
     if (fseek(file, 0L, SEEK_END) == 0) {
       /* Store Size of File */
@@ -35,20 +36,39 @@ WORD* read_binary_file(char* path, long* buffer_size) {
   return source;
 }
 
-char** read_file_by_line(char* path, long* buffer_size) {
+char** read_text_file(char* path, long* buffer_size) {
 
-  char** lines = malloc(MAX_LINE_COUNT * MAX_LINE_LENGTH * sizeof(char));
-  FILE*  file  = file = fopen(path, "r");
-  int    i     = 0;
+  FILE*  file  = fopen(path, "r");
+  char** lines = (char**) calloc(MAX_LINE_COUNT, sizeof(char*));
+  for (int i = 0; i < MAX_LINE_COUNT; i++)
+    lines[i] = (char*) calloc(MAX_LINE_LENGTH, sizeof(char));
+  int i = 0;
 
-  if (file != NULL) {
-    while (fgets(lines[i], MAX_LINE_LENGTH, file)) {
-      //lines[i][strlen(lines[i]) - 1] = '\0';
-      ++i;
+  if (file != NULL && lines != NULL) {
+    while (fgets(lines[i], MAX_LINE_LENGTH, file) && i < MAX_LINE_COUNT) {
+      lines[i][strlen(lines[i])-1] = '\0';
+      i++;
     }
   }
   fclose(file);
   *buffer_size = i;
 
   return lines;
+}
+
+int write_binary_file(char* path, WORD* buffer, long elem_count) {
+
+  if (access(path, F_OK) != -1) {
+    fatal_error("ASM OUTPUT FILE ALREADY EXISTS");
+    return 0;
+  }
+  else {
+    FILE* file = fopen(path, "wb");
+
+    int writes = 0;
+    if (file)
+      writes = fwrite(buffer, sizeof(WORD), elem_count, file);
+
+    return writes;
+  }
 }
