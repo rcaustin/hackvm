@@ -6,6 +6,7 @@
 
 /* Memory Size = 2^15 = 32K */
 #define MEMSIZE 32768
+#define MAXADDR 32767
 
 /* Signals */
 #define SIG_QUIT  0x8800 // 1000 1000 0000 0000
