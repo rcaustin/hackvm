@@ -8,4 +8,6 @@
 #define ASM_SIG_PRNTM "PRINT_M"
 
 
-WORD parse_hack_asm(char* line);
+void translate_asm(char** source, WORD* buffer, long line_count);
+WORD parse_a_instr(char* line);
+WORD parse_c_instr(char* line);
